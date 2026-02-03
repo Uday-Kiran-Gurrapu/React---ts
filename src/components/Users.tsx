@@ -8,6 +8,7 @@ function Users(){
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [searchTerm, setSearchTerm] = useState<string>("");
     const fetchUsers = async () => {
         try {
         setLoading(true);
@@ -27,7 +28,6 @@ function Users(){
         }
        
     };
-    
     useEffect(() => {fetchUsers();}, []);
     if (loading) {return <div>Loading...</div>;}
     if (error){
@@ -38,10 +38,22 @@ function Users(){
         </div>
         );
     }
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(e.target.value);
+    };
+    const filteredUsers = users.filter((user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()));
     return (
         <div>
             <h2>Users List</h2>
-            {users.length ===0 ?<p>No users available.</p>:(users.map((user) => (
+            <input
+            type = "text"
+            placeholder="search users..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            />
+            <button onClick={()=> setSearchTerm("")}>Clear</button>
+            {filteredUsers.length ===0 ?<p>No users available.</p>:(filteredUsers.map((user) => (
                 <div key = {user.id}>
                     <p>Name: {user.name}</p>
                     <p>Email: {user.email}</p>
