@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 type User = {
     id: number;
     name: string;
@@ -9,6 +9,9 @@ function Users(){
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState<string>("");
+    const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(e.target.value);
+    };
     const fetchUsers = async () => {
         try {
         setLoading(true);
@@ -25,8 +28,7 @@ function Users(){
         setError("Failed to load users. Please try again.");
         }finally{
         setLoading(false);
-        }
-       
+        }   
     };
     useEffect(() => {fetchUsers();}, []);
     if (loading) {return <div>Loading...</div>;}
@@ -37,10 +39,7 @@ function Users(){
         <button onClick = {fetchUsers}>Retry</button>
         </div>
         );
-    }
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(e.target.value);
-    };
+    }  
     const filteredUsers = users.filter((user) =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase()));
     return (
@@ -52,8 +51,9 @@ function Users(){
             value={searchTerm}
             onChange={handleSearchChange}
             />
-            <button onClick={()=> setSearchTerm("")}>Clear</button>
-            {filteredUsers.length ===0 ?<p>No users available.</p>:(filteredUsers.map((user) => (
+            <button onClick={()=> setSearchTerm("")} disabled={!searchTerm}>Clear</button>
+            {users.length ===0 ? <p>No users available.</p>:(
+                filteredUsers.length=== 0? <p>No matching users found.</p>:filteredUsers.map((user) => (
                 <div key = {user.id}>
                     <p>Name: {user.name}</p>
                     <p>Email: {user.email}</p>
