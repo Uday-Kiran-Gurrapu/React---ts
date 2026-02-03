@@ -1,5 +1,12 @@
-import { useState } from "react";
-function ProfileForm() {
+import React, { useState } from "react";
+export type Profile = {
+    name: string;
+    email: string;
+}
+type ProfileFormProps = {
+    onSave:(profile: Profile) => void;
+}
+function ProfileForm({onSave}: ProfileFormProps) {
     const [name, setName] = useState<string>("")
     const [email, setEmail] = useState<string>("")
     const [error, setError] = useState<string | null>(null);
@@ -27,6 +34,7 @@ function ProfileForm() {
         setError (null);
         setSuccess("Profile saved Succesfully!");
         console.log(name, email);
+        onSave({name, email});
     };
     return(
         <div>
