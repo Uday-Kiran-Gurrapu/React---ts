@@ -1,11 +1,9 @@
-import {useState, type ChangeEvent } from "react";
+import {useState } from "react";
 import { useUsers} from "../hooks/useUsers";
+import SearchInput from "./SearchInput";
 function Users(){
     const [searchTerm, setSearchTerm] = useState<string>("");
     const {users, loading, error, fetchUsers} = useUsers();
-    const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(e.target.value);
-    };
     const filteredUsers = users.filter((user) =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase()));
     if (loading) {return <div>Loading...</div>;}
@@ -20,12 +18,9 @@ function Users(){
     return (
         <div>
             <h2>Users List</h2>
-            <input
-            type = "text"
-            placeholder="search users..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-            />
+            <SearchInput value={searchTerm} 
+            onChange ={setSearchTerm} 
+            placeholder="Search users..."/>
             <button onClick={()=> setSearchTerm("")} disabled={!searchTerm}>Clear</button>
             {users.length ===0 ? <p>No users available.</p>:(
                 filteredUsers.length=== 0? <p>No matching users found.</p>:filteredUsers.map((user) => (

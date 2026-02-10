@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
-export type User = {
-  id: number;
-  name: string;
-  email: string;
-};
+import type {User} from "../types/User";
+
 export function useUsers() {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState<boolean>(true);

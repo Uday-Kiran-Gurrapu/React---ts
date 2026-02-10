@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-export type Profile = {
-    name: string;
-    email: string;
-}
+import {type Profile } from "../types/Profile";
 type ProfileFormProps = {
     onSave:(profile: Profile) => void;
 }

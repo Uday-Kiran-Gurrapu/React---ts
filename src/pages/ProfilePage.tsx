@@ -1,5 +1,5 @@
 import ProfileForm from "../components/ProfileForm";
-import type { Profile } from "../components/ProfileForm";
+import {type Profile } from "../types/Profile";
 import { useState } from "react";
 
 function ProfilePage() {
@@ -10,7 +10,14 @@ function ProfilePage() {
     return (
         <div>
             <h2>This is the Profile Page</h2>
-            <ProfileForm />
+             <ProfileForm onSave={handleSaveProfile}/>
+            {savedProfile ? (
+            <div>
+            <h3>Saved Profile</h3>
+            <p>Name: {savedProfile.name}</p>
+            <p>Email: {savedProfile.email}</p>
+            </div>
+            ):<p>No profile saved yet</p>}
         </div>
     );
 }
