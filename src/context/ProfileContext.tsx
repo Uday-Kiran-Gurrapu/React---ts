@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import type { Profile } from '../types/Profile';
 type ProfileContextType = {
     savedProfile: Profile | null;
@@ -8,14 +8,16 @@ type ProfileContextType = {
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 export function ProfileProvider({ children }: { children: React.ReactNode }) {
     const [savedProfile, setsavedProfile] = useState<Profile | null>(null);
-    const saveProfile = (profile: Profile) => {
+    const saveProfile = useCallback((profile: Profile) => {
         setsavedProfile(profile);
-    };
-    const clearProfile = () => {
+    },[]);
+    const clearProfile = useCallback(() => {
         setsavedProfile(null);
-    };
+    },[]);
+    const value = useMemo(() => ({ savedProfile, saveProfile, clearProfile }), 
+    [savedProfile, saveProfile, clearProfile]);
     return (
-        <ProfileContext.Provider value={{ savedProfile, saveProfile, clearProfile }}>
+        <ProfileContext.Provider value={value}>
             {children}
         </ProfileContext.Provider>
     );
