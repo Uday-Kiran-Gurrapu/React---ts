@@ -1,56 +1,3 @@
-# 🚀 React TypeScript User Management App
-
-A multi-page React application built with TypeScript that demonstrates modern React development patterns including:
-
-- Custom Hooks
-- Context API (Global State Management)
-- React Router
-- Reusable Components
-- Search & Filtering
-- Error Handling
-- Performance Optimization
-
-This project was developed as part of structured upskilling in React + TypeScript to practice scalable architecture and interview-level concepts.
-
----
-
-## 🛠 Tech Stack
-
-- React
-- TypeScript
-- React Router DOM
-- Context API
-- Custom Hooks
-- Vite
-- useMemo & useCallback (Performance Optimization)
-
----
-
-## 📂 Project Structure
-src/
-├── components/
-│ ├── Header.tsx
-│ ├── Users.tsx
-│ ├── SearchInput.tsx
-│ ├── ProfileForm.tsx
-│
-├── pages/
-│ ├── Home.tsx
-│ ├── UsersPage.tsx
-│ ├── ProfilePage.tsx
-│
-├── hooks/
-│ └── useUsers.ts
-│
-├── context/
-│ └── ProfileContext.tsx
-│
-├── types/
-│ ├── User.ts
-│ └── Profile.ts
-│
-├── App.tsx
-└── main.tsx
 
 ---
 
@@ -102,3 +49,9 @@ This avoids prop drilling and demonstrates scalable state architecture.
 
 ---
 
+## ▶️ Getting Started
+
+### 1️⃣ Install dependencies
+
+```bash
+npm install
