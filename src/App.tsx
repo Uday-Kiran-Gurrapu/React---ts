@@ -1,26 +1,20 @@
-import { Link, Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
+import { Routes, Route } from "react-router-dom";
+import AppLayout from "./layouts/AppLayout";
 import Home from "./pages/Home";
 import UsersPage from "./pages/UsersPage";
 import ProfilePage from "./pages/ProfilePage";
+import NotFound from "./pages/NotFound";
 function App() {
  
   return (
-    <div>
-      <Header title="React + TypeScript 🚀" userName="Uday" />
-      <nav style={{ marginTop: 12 }}>
-        <ul style={{ display: "flex", gap: 16, listStyle: "none", padding: 0 }}>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/users">Users</Link></li>
-          <li><Link to="/profile">Profile</Link></li>
-        </ul>
-      </nav>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/users" element={<UsersPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+    <Routes>
+        <Route path="/" element={<AppLayout />}>
+            <Route index element={<Home />} />
+            <Route path="/users" element={<UsersPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="*" element={<NotFound />} />
+        </Route>
       </Routes>
-    </div>
     );
 }  
 

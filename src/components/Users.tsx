@@ -1,6 +1,7 @@
 import {useState } from "react";
 import { useUsers} from "../hooks/useUsers";
 import SearchInput from "./SearchInput";
+import React from "react";
 function Users(){
     const [searchTerm, setSearchTerm] = useState<string>("");
     const {users, loading, error, fetchUsers} = useUsers();
@@ -32,4 +33,4 @@ function Users(){
         </div>
     );
 }
-export default Users;
+export default React.memo(Users);

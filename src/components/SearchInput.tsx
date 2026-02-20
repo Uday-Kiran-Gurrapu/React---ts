@@ -1,3 +1,4 @@
+import React from "react";
 type SearchInputProps = {
     value: string;
     placeholder?: string;
@@ -14,4 +15,4 @@ function SearchInput({ value, placeholder, onChange }: SearchInputProps) {
             onChange={(e) => onChange(e.target.value)}
             />
         </div>);
-}export default SearchInput;
+}export default React.memo(SearchInput);
