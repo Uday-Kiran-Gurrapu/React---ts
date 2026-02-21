@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react';
 import type { Profile } from '../types/Profile';
 type ProfileContextType = {
     savedProfile: Profile | null;
@@ -7,12 +7,22 @@ type ProfileContextType = {
 }
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 export function ProfileProvider({ children }: { children: React.ReactNode }) {
-    const [savedProfile, setsavedProfile] = useState<Profile | null>(null);
+    const [savedProfile, setSavedProfile] = useState<Profile | null>(() => {
+    const raw = localStorage.getItem("savedProfile");
+    return raw ? (JSON.parse(raw) as Profile) : null;
+    });
+    useEffect(() => {
+    if (savedProfile) {
+    localStorage.setItem("savedProfile", JSON.stringify(savedProfile));
+    } else {
+    localStorage.removeItem("savedProfile");
+   }
+    }, [savedProfile]);
     const saveProfile = useCallback((profile: Profile) => {
-        setsavedProfile(profile);
+        setSavedProfile(profile);
     },[]);
     const clearProfile = useCallback(() => {
-        setsavedProfile(null);
+        setSavedProfile(null);
     },[]);
     const value = useMemo(() => ({ savedProfile, saveProfile, clearProfile }), 
     [savedProfile, saveProfile, clearProfile]);
