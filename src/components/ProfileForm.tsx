@@ -1,57 +1,84 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import {type Profile } from "../types/Profile";
 type ProfileFormProps = {
     onSave:(profile: Profile) => void;
 }
+type FormState = {
+    name: string;
+    email: string;
+    error: string | null;
+    success: string | null;
+}
+type FormAction =
+    | { type: "SET_NAME"; payload: string }
+    | { type: "SET_EMAIL"; payload: string }
+    | { type: "SET_ERROR"; payload: string | null }
+    | { type: "SET_SUCCESS"; payload: string | null }
+    | { type: "RESET" };
+const initialState: FormState = {
+    name: "",
+    email: "",
+    error: null,
+    success: null,
+};
+function profileReducer(state: FormState, action: FormAction): FormState {
+    switch (action.type) {
+        case "SET_NAME":
+            return { ...state, name: action.payload, error: null, success: null };
+        case "SET_EMAIL":
+            return { ...state, email: action.payload, error: null, success: null };
+        case "SET_ERROR":
+            return { ...state, error: action.payload };
+        case "SET_SUCCESS":
+            return { ...state, success: action.payload };
+        case "RESET":
+            return initialState;
+        default:
+            return state;
+    }
+}
 function ProfileForm({onSave}: ProfileFormProps) {
-    const [name, setName] = useState<string>("")
-    const [email, setEmail] = useState<string>("")
-    const [error, setError] = useState<string | null>(null);
-    const [success, setSuccess] = useState<string | null>(null);
-    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setName (e.target.value);
-        setError(null);
-        setSuccess(null);    
-    }
-    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
-        setError (null);
-        setSuccess(null);
-    }
+    const [state, dispatch] = useReducer(profileReducer, initialState);
     const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!name.trim()) {
-            setError ("Name is required.");
+        if (!state.name.trim()) {
+            dispatch({ type: "SET_ERROR", payload: "Name is required." });
             return;
         }
-        if (!email.includes("@")) {
-            setError ("Invalid email address.");
+        if (!state.email.includes("@")) {
+            dispatch({ type: "SET_ERROR", payload: "Invalid email address." });
             return;
         }
-        setError (null);
-        setSuccess("Profile saved Succesfully!");
-        console.log(name, email);
-        onSave({name, email});
+        dispatch({ type: "SET_SUCCESS", payload: "Profile saved successfully!" });
+        onSave({name: state.name, email: state.email});
     };
     return(
         <div>
             <h2>Profile Forms</h2>
-            {error && <p style={{color: "red"}}>{error}</p> }
-            {success &&<p style={{color: "green"}}>{success}</p>}
+            {state.error && <p style={{color: "red"}}>{state.error}</p> }
+            {state.success &&<p style={{color: "green"}}>{state.success}</p>}
             <form onSubmit={handleOnSubmit}>
                 <div>
                     <label>Name</label>
-                    <input type="text" value={name} onChange ={handleNameChange}/>
+                    <input 
+                     type="text" 
+                     value={state.name} 
+                     onChange={(e) =>
+                     dispatch({ type: "SET_NAME", payload: e.target.value })}/>
                 </div>
                 <div>
                     <label>Email</label>
-                    <input type="email" value={email} onChange ={handleEmailChange}/>
+                    <input 
+                     type="email" 
+                     value={state.email} 
+                     onChange={(e) =>
+                     dispatch({ type: "SET_EMAIL", payload: e.target.value })}/>
                 </div>
                 <button type="submit">Save</button>
             </form>
             <hr />
-            <p>Name: {name}</p>
-            <p>Email: {email}</p>
+            <p>Name: {state.name}</p>
+            <p>Email: {state.email}</p>
         </div>
     );
 }
