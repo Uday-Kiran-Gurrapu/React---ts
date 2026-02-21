@@ -1,31 +1,57 @@
-import React, { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react';
+import React, { createContext, useContext, useCallback, useMemo, useEffect, useReducer } from 'react';
 import type { Profile } from '../types/Profile';
+type ProfileState = {
+    savedProfile: Profile | null;   
+};
+type ProfileAction =
+  | { type: "SAVE_PROFILE"; payload: Profile }
+  | { type: "CLEAR_PROFILE" };
+
+const initialState: ProfileState = {
+  savedProfile: null,
+};
+function profileReducer(state: ProfileState, action: ProfileAction): ProfileState {
+  switch (action.type) {
+    case "SAVE_PROFILE":
+      return { ...state, savedProfile: action.payload };
+    case "CLEAR_PROFILE":
+      return { ...state, savedProfile: null };
+    default:
+      return state;
+  }
+}
 type ProfileContextType = {
     savedProfile: Profile | null;
     saveProfile: (profile: Profile) => void;
     clearProfile: () => void;
-}
+};
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 export function ProfileProvider({ children }: { children: React.ReactNode }) {
-    const [savedProfile, setSavedProfile] = useState<Profile | null>(() => {
-    const raw = localStorage.getItem("savedProfile");
-    return raw ? (JSON.parse(raw) as Profile) : null;
-    });
+    const [state, dispatch] = useReducer(
+    profileReducer,
+    initialState,
+    (init) => {
+      const raw = localStorage.getItem("savedProfile");
+      return {
+        ...init,
+        savedProfile: raw ? (JSON.parse(raw) as Profile) : null,
+      };
+    }
+  );
     useEffect(() => {
-    if (savedProfile) {
-    localStorage.setItem("savedProfile", JSON.stringify(savedProfile));
+    if (state.savedProfile) {
+    localStorage.setItem("savedProfile", JSON.stringify(state.savedProfile));
     } else {
     localStorage.removeItem("savedProfile");
    }
-    }, [savedProfile]);
+    }, [state.savedProfile]);
     const saveProfile = useCallback((profile: Profile) => {
-        setSavedProfile(profile);
+        dispatch({ type: "SAVE_PROFILE", payload: profile });
     },[]);
     const clearProfile = useCallback(() => {
-        setSavedProfile(null);
+        dispatch({ type: "CLEAR_PROFILE" });
     },[]);
-    const value = useMemo(() => ({ savedProfile, saveProfile, clearProfile }), 
-    [savedProfile, saveProfile, clearProfile]);
+    const value = useMemo(() => ({ savedProfile: state.savedProfile, saveProfile, clearProfile }), [state.savedProfile, saveProfile, clearProfile]);
     return (
         <ProfileContext.Provider value={value}>
             {children}
