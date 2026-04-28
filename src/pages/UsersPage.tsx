@@ -1,10 +1,7 @@
 import Users from "../components/Users";
+
 function UsersPage() {
-    return (
-        <div>
-            <h2>Users Page</h2>
-            <Users />
-        </div>
-    );
+  return <Users />;
 }
+
 export default UsersPage;
