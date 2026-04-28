@@ -2,8 +2,9 @@ import React, { createContext, useContext, useState } from "react";
 
 type CounterContextType = {
   count: number;
-  increment: () => void;
-  decrement: () => void;
+  increment: (step: number) => void;
+  decrement: (step: number) => void;
+  reset: () => void;
 };
 
 const CounterContext = createContext<CounterContextType | undefined>(undefined);
@@ -11,11 +12,12 @@ const CounterContext = createContext<CounterContextType | undefined>(undefined);
 export function CounterProvider({ children }: { children: React.ReactNode }) {
   const [count, setCount] = useState(0);
 
-  const increment = () => setCount((c) => c + 1);
-  const decrement = () => setCount((c) => Math.max(0, c - 1));
+  const increment = (step: number) => setCount((c) => c + step);
+  const decrement = (step: number) => setCount((c) => Math.max(0, c - step));
+  const reset = () => setCount(0);
 
   return (
-    <CounterContext.Provider value={{ count, increment, decrement }}>
+    <CounterContext.Provider value={{ count, increment, decrement, reset }}>
       {children}
     </CounterContext.Provider>
   );
