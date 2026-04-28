@@ -13,7 +13,7 @@ function SearchInput({ value, placeholder, onChange }: SearchInputProps) {
       placeholder={placeholder ?? "Search..."}
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+      className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-accent-500 focus:ring-1 focus:ring-accent-500 transition-colors"
     />
   );
 }

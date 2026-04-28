@@ -10,4 +10,85 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Default accent: indigo (RGB values for alpha-value support) */
+  --accent-400: 129 140 248;
+  --accent-500: 99 102 241;
+  --accent-600: 79 70 229;
+  --accent-700: 67 56 202;
+  --accent-800: 55 48 163;
+  --accent-900: 49 46 129;
+}
+
+/* Accent: Emerald */
+html.accent-emerald {
+  --accent-400: 52 211 153;
+  --accent-500: 16 185 129;
+  --accent-600: 5 150 105;
+  --accent-700: 4 120 87;
+  --accent-800: 6 95 70;
+  --accent-900: 6 78 59;
+}
+
+/* Accent: Rose */
+html.accent-rose {
+  --accent-400: 251 113 133;
+  --accent-500: 244 63 94;
+  --accent-600: 225 29 72;
+  --accent-700: 190 18 60;
+  --accent-800: 159 18 57;
+  --accent-900: 136 19 55;
+}
+
+/* Accent: Violet */
+html.accent-violet {
+  --accent-400: 167 139 250;
+  --accent-500: 139 92 246;
+  --accent-600: 124 58 237;
+  --accent-700: 109 40 217;
+  --accent-800: 91 33 182;
+  --accent-900: 76 29 149;
+}
+
+/* Light theme overrides */
+html.theme-light .bg-gray-950 { background-color: #f1f5f9; }
+html.theme-light .bg-gray-900 { background-color: #ffffff; }
+html.theme-light .bg-gray-800 { background-color: #f8fafc; }
+html.theme-light .bg-gray-700 { background-color: #e2e8f0; }
+
+html.theme-light .hover\:bg-gray-600:hover { background-color: #cbd5e1; }
+html.theme-light .hover\:bg-gray-700:hover { background-color: #e2e8f0; }
+
+html.theme-light .border-gray-950 { border-color: #e2e8f0; }
+html.theme-light .border-gray-800 { border-color: #e2e8f0; }
+html.theme-light .border-gray-700 { border-color: #cbd5e1; }
+
+html.theme-light .text-white   { color: #0f172a; }
+html.theme-light .text-gray-100 { color: #1e293b; }
+html.theme-light .text-gray-200 { color: #334155; }
+html.theme-light .text-gray-300 { color: #475569; }
+html.theme-light .text-gray-400 { color: #64748b; }
+html.theme-light .text-gray-500 { color: #94a3b8; }
+
+html.theme-light .placeholder-gray-500::placeholder { color: #94a3b8; }
+
+html.theme-light .shadow-lg {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
+}
+
+html.theme-light .bg-red-950  { background-color: #fff1f2; }
+html.theme-light .bg-green-950 { background-color: #f0fdf4; }
+html.theme-light .text-red-400  { color: #be123c; }
+html.theme-light .text-green-400 { color: #15803d; }
+html.theme-light .border-red-700  { border-color: #fecdd3; }
+html.theme-light .border-green-700 { border-color: #bbf7d0; }
+
+/* Toast animation */
+.toast-slide-in {
+  animation: toast-in 0.2s ease-out;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

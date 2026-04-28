@@ -5,17 +5,23 @@ import './index.css'
 import App from './App.tsx'
 import { ProfileProvider } from './context/ProfileContext.tsx'
 import { CounterProvider } from './context/CounterContext.tsx'
+import { ThemeProvider } from './context/ThemeContext.tsx'
+import { ToastProvider } from './context/ToastContext.tsx'
 import ErrorBoundary from './components/ErrorBoundary.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary>
       <BrowserRouter>
-        <ProfileProvider>
-          <CounterProvider>
-            <App />
-          </CounterProvider>
-        </ProfileProvider>
+        <ThemeProvider>
+          <ToastProvider>
+            <ProfileProvider>
+              <CounterProvider>
+                <App />
+              </CounterProvider>
+            </ProfileProvider>
+          </ToastProvider>
+        </ThemeProvider>
       </BrowserRouter>
     </ErrorBoundary>
   </StrictMode>,
