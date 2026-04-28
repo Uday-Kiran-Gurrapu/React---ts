@@ -63,13 +63,13 @@ function ProfileForm({ onSave }: ProfileFormProps) {
       dispatch({ type: "SUBMIT_END" });
       return;
     }
-    if (!state.email.includes("@")) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(state.email)) {
       dispatch({ type: "SET_ERROR", payload: "Invalid email address." });
       dispatch({ type: "SUBMIT_END" });
       return;
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 800));
     dispatch({ type: "SET_SUCCESS", payload: "Profile saved successfully!" });
     onSave({ name: state.name, email: state.email });
     dispatch({ type: "SUBMIT_END" });
@@ -80,34 +80,40 @@ function ProfileForm({ onSave }: ProfileFormProps) {
       <h2 className="text-xl font-bold text-white">Profile Form</h2>
 
       {state.error && (
-        <div className="p-3 bg-red-950 border border-red-700 rounded-lg">
+        <div role="alert" className="p-3 bg-red-950 border border-red-700 rounded-lg">
           <p className="text-red-400 text-sm">{state.error}</p>
         </div>
       )}
       {state.success && (
-        <div className="p-3 bg-green-950 border border-green-700 rounded-lg">
+        <div role="status" className="p-3 bg-green-950 border border-green-700 rounded-lg">
           <p className="text-green-400 text-sm">{state.success}</p>
         </div>
       )}
 
-      <form onSubmit={handleOnSubmit} className="space-y-4">
+      <form onSubmit={handleOnSubmit} className="space-y-4" noValidate>
         <div className="space-y-1">
-          <label className="block text-sm font-medium text-gray-300">Name</label>
+          <label htmlFor="profile-name" className="block text-sm font-medium text-gray-300">Name</label>
           <input
+            id="profile-name"
             type="text"
             value={state.name}
             disabled={state.isSubmitting}
+            aria-required="true"
+            aria-describedby={state.error ? "profile-error" : undefined}
             onChange={(e) => dispatch({ type: "SET_NAME", payload: e.target.value })}
             className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors disabled:opacity-50"
           />
         </div>
 
         <div className="space-y-1">
-          <label className="block text-sm font-medium text-gray-300">Email</label>
+          <label htmlFor="profile-email" className="block text-sm font-medium text-gray-300">Email</label>
           <input
+            id="profile-email"
             type="email"
             value={state.email}
             disabled={state.isSubmitting}
+            aria-required="true"
+            aria-describedby={state.error ? "profile-error" : undefined}
             onChange={(e) => dispatch({ type: "SET_EMAIL", payload: e.target.value })}
             className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors disabled:opacity-50"
           />

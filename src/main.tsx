@@ -4,13 +4,19 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 import { ProfileProvider } from './context/ProfileContext.tsx'
-import "./index.css";
+import { CounterProvider } from './context/CounterContext.tsx'
+import ErrorBoundary from './components/ErrorBoundary.tsx'
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-     <ProfileProvider>
-      <App />
-     </ProfileProvider>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <ProfileProvider>
+          <CounterProvider>
+            <App />
+          </CounterProvider>
+        </ProfileProvider>
+      </BrowserRouter>
+    </ErrorBoundary>
   </StrictMode>,
 )

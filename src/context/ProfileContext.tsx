@@ -31,11 +31,17 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     profileReducer,
     initialState,
     (init) => {
-      const raw = localStorage.getItem("savedProfile");
-      return {
-        ...init,
-        savedProfile: raw ? (JSON.parse(raw) as Profile) : null,
-      };
+      try {
+        const raw = localStorage.getItem("savedProfile");
+        if (!raw) return init;
+        const parsed = JSON.parse(raw) as Profile;
+        if (typeof parsed.name === "string" && typeof parsed.email === "string") {
+          return { ...init, savedProfile: parsed };
+        }
+        return init;
+      } catch {
+        return init;
+      }
     }
   );
     useEffect(() => {

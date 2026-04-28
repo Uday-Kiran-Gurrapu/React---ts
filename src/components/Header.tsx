@@ -1,5 +1,4 @@
 import { useProfile } from "../context/ProfileContext";
-import React from "react";
 
 type HeaderProps = {
   title: string;
@@ -21,4 +20,4 @@ function Header({ title, userName }: HeaderProps) {
   );
 }
 
-export default React.memo(Header);
+export default Header;
